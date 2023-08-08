@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchGrassCart.API", "TouchGrassCart.API\TouchGrassCart.API.csproj", "{63E36A44-5510-45E0-A0AF-15F32624A467}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchGrassCart.Contracts", "TouchGrassCart.Contracts\TouchGrassCart.Contracts.csproj", "{CDA90A2C-981E-4E7A-A7C8-CAD7AE3EB8AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TouchGrassCart.Application", "TouchGrassCart.Application\TouchGrassCart.Application.csproj", "{65B44890-582B-4AEA-91EE-EDB81B4CC307}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{63E36A44-5510-45E0-A0AF-15F32624A467}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{63E36A44-5510-45E0-A0AF-15F32624A467}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{63E36A44-5510-45E0-A0AF-15F32624A467}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{63E36A44-5510-45E0-A0AF-15F32624A467}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDA90A2C-981E-4E7A-A7C8-CAD7AE3EB8AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDA90A2C-981E-4E7A-A7C8-CAD7AE3EB8AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDA90A2C-981E-4E7A-A7C8-CAD7AE3EB8AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDA90A2C-981E-4E7A-A7C8-CAD7AE3EB8AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65B44890-582B-4AEA-91EE-EDB81B4CC307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65B44890-582B-4AEA-91EE-EDB81B4CC307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65B44890-582B-4AEA-91EE-EDB81B4CC307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65B44890-582B-4AEA-91EE-EDB81B4CC307}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
