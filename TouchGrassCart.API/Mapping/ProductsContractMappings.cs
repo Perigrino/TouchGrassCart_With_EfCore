@@ -4,9 +4,9 @@ using TouchGrassCart.Contracts.Response;
 
 namespace TouchGrassCart.API.Mapping;
 
-public static class ContractMappings
+public static class ProductsContractMappings
 {
-    public static Product? MapToProduct(this CreateProductRequest request)
+    public static Product MapToProduct(this CreateProductRequest request)
     {
         return new Product()
         {
@@ -48,7 +48,8 @@ public static class ContractMappings
             ProductName = request.ProductName,
             Description = request.Description,
             Price = request.Price,
-            Quantity = request.Quantity
+            Quantity = request.Quantity,
+            UpdatedAt = request.UpdatedAt
         };
     }
 }

@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using TouchGrassCart.Application.Database.AppDbContext;
 using TouchGrassCart.Application.Interface;
@@ -19,6 +18,7 @@ public class ProductRepository: IProductRepository
     public async Task<IEnumerable<Product>> GetProductsAsync()
     {
         var result = await _context.Products
+            .OrderByDescending(c => c.CreatedAt)
             .ToListAsync();
         return result;
     }
@@ -56,8 +56,7 @@ public class ProductRepository: IProductRepository
             result.Description = product.Description;
             result.Price = product.Price;
             result.Quantity = product.Quantity;
-            // await _context.SaveChangesAsync();
-            //_context.Update(product);
+            result.UpdatedAt = product.UpdatedAt;
         }
         return await Save();
     }
@@ -82,6 +81,6 @@ public class ProductRepository: IProductRepository
     public async Task<bool> Save()
     {
         var saved =  await _context.SaveChangesAsync();
-        return saved > 0 ? true : false;
+        return saved > 0;
     }
 }
