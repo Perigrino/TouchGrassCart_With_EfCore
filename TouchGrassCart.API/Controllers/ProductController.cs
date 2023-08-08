@@ -99,7 +99,7 @@ public class ProductController : Controller
         var response = new FinalResponse<ProductResponse>
         {
             StatusCode = 200,
-            Message = "Product created successfully.",
+            Message = "Product details updated successfully.",
             Data = product.MapsToResponse()
         };
         return Ok(response);
