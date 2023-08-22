@@ -24,16 +24,14 @@ namespace TouchGrassCart.Application.Migrations
 
             modelBuilder.Entity("TouchGrassCart.Application.Model.Cart", b =>
                 {
-                    b.Property<int>("CartId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CartId"));
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
 
-                    b.HasKey("CartId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
 
@@ -42,21 +40,15 @@ namespace TouchGrassCart.Application.Migrations
 
             modelBuilder.Entity("TouchGrassCart.Application.Model.CartItem", b =>
                 {
-                    b.Property<Guid>("CartItemId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("CartId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("CartId")
+                        .HasColumnType("uuid");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ProductName")
                         .IsRequired()
@@ -65,7 +57,10 @@ namespace TouchGrassCart.Application.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
-                    b.HasKey("CartItemId");
+                    b.Property<decimal>("UnitPrice")
+                        .HasColumnType("numeric");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CartId");
 
@@ -122,15 +117,15 @@ namespace TouchGrassCart.Application.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("double precision");
-
                     b.Property<string>("ProductName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("StockNumber")
                         .HasColumnType("integer");
+
+                    b.Property<double>("UnitPrice")
+                        .HasColumnType("double precision");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -154,7 +149,7 @@ namespace TouchGrassCart.Application.Migrations
             modelBuilder.Entity("TouchGrassCart.Application.Model.CartItem", b =>
                 {
                     b.HasOne("TouchGrassCart.Application.Model.Cart", "Cart")
-                        .WithMany("Items")
+                        .WithMany("CartItems")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -164,7 +159,7 @@ namespace TouchGrassCart.Application.Migrations
 
             modelBuilder.Entity("TouchGrassCart.Application.Model.Cart", b =>
                 {
-                    b.Navigation("Items");
+                    b.Navigation("CartItems");
                 });
 
             modelBuilder.Entity("TouchGrassCart.Application.Model.Customer", b =>

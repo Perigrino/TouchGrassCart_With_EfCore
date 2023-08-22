@@ -13,8 +13,8 @@ public static class ProductsContractMappings
             Id = Guid.NewGuid(),
             ProductName = request.ProductName,
             Description = request.Description,
-            Quantity = request.Quantity,
-            Price = request.Price
+            StockNumber = request.StockNumber,
+            UnitPrice = request.UnitPrice
         };
     
     }
@@ -26,8 +26,8 @@ public static class ProductsContractMappings
             Id = product.Id,
             ProductName = product.ProductName,
             Description = product.Description,
-            Price = product.Price,
-            Quantity = product.Quantity,
+            UnitPrice = product.UnitPrice,
+            StockNumber = product.StockNumber,
             CreatedAt = product.CreatedAt
         };
     }
@@ -47,8 +47,8 @@ public static class ProductsContractMappings
             Id = id,
             ProductName = request.ProductName,
             Description = request.Description,
-            Price = request.Price,
-            Quantity = request.Quantity,
+            UnitPrice = request.UnitPrice,
+            StockNumber = request.StockNumber,
             UpdatedAt = request.UpdatedAt
         };
     }

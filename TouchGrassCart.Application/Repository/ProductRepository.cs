@@ -38,8 +38,8 @@ public class ProductRepository: IProductRepository
             Id = product.Id,
             ProductName = product.ProductName,
             Description = product.Description,
-            Price = product.Price,
-            Quantity = product.Quantity,
+            UnitPrice = product.UnitPrice,
+            StockNumber = product.StockNumber,
             CreatedAt = product.CreatedAt
         };
         await _context.AddAsync(newProduct);
@@ -54,8 +54,8 @@ public class ProductRepository: IProductRepository
         {
             result.ProductName = product.ProductName;
             result.Description = product.Description;
-            result.Price = product.Price;
-            result.Quantity = product.Quantity;
+            result.UnitPrice = product.UnitPrice;
+            result.StockNumber = product.StockNumber;
             result.UpdatedAt = product.UpdatedAt;
         }
         return await Save();
