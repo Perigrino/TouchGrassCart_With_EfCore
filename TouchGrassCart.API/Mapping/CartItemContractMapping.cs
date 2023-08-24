@@ -20,9 +20,9 @@ public static class CartItemContractMapping
     
     }
     
-    public static CartItemResponse MapsToResponse(this CartItem cartItem)
+    public static CartItem MapsToResponse(this CartItem cartItem)
     {
-        return new CartItemResponse
+        return new CartItem
         {
             Id = Guid.NewGuid(),
             CartId = cartItem.CartId,
@@ -33,12 +33,9 @@ public static class CartItemContractMapping
         };
     }
     
-    public static CartItemsResponse MapsToResponse(this IEnumerable<CartItem> cartItems)
+    public static Cart MapsToResponse(this Cart cartItems)
     {
-        return new CartItemsResponse()
-        {
-            CartItems = cartItems.Select(MapsToResponse)
-        };
+        return cartItems;
     }
     
     public static CartItem MapToCartItem(this UpdateCartItemRequest request, Guid guid)

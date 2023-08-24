@@ -1,7 +1,9 @@
+using Jil;
 using Microsoft.EntityFrameworkCore;
 using TouchGrassCart.Application.Database.AppDbContext;
 using TouchGrassCart.Application.Interface;
 using TouchGrassCart.Application.Model;
+
 
 namespace TouchGrassCart.Application.Repository;
 
@@ -26,7 +28,7 @@ public class CartRepository : ICartRepository
 
     public async Task<Cart> GetCatById(Guid cartId)
     {
-        var result = await _context.Carts
+            var result = await _context.Carts
             .Include(cartItems => cartItems.CartItems)
             .FirstOrDefaultAsync(i => i.Id == cartId);
         return result ?? throw new InvalidOperationException();

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TouchGrassCart.API.Mapping;
 using TouchGrassCart.Application.Interface;
+using TouchGrassCart.Application.Model;
 using TouchGrassCart.Contracts.Request;
 using TouchGrassCart.Contracts.Response;
 
@@ -21,41 +22,41 @@ public class CartItemController : Controller
     public async Task<IActionResult> GetCartItems()
     {
         var cartItem = await _cartItemRepository.GetCartItemAsync();
-        var cartItemResponse = new FinalResponse<CartItemsResponse>
+        var cartItemResponse = new FinalResponse<List<CartItem>>
         {
             StatusCode = 200,
             Message = "Cart Items retrieved successfully.",
-            Data = cartItem.MapsToResponse()
+            Data = cartItem.ToList()
         };
         return Ok(cartItemResponse);
     }
 
-    //POST CartItem
-    [HttpPost(ApiEndpoints.CartItem.Create)]
-    public async Task<IActionResult> CreateCartItem([FromBody] CreateCartItemRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest(new FinalResponse<object>() { StatusCode = 400, Message = "Cart Item data is invalid." });
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(new FinalResponse<object>
-                { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
-        }
-
-        var cartItem = request.MapToCartItem();
-        await _cartItemRepository.CreateCartItem(cartItem ?? throw new InvalidOperationException());
-        var customerResponse = new FinalResponse<CartItemResponse>
-        {
-            StatusCode = 200,
-            Message = "Cart Item created successfully.",
-            Data = cartItem.MapsToResponse()
-        };
-        return CreatedAtAction(nameof(GetCartItems), new { id = cartItem.Id }, customerResponse);
-
-    }
+    // //POST CartItem
+    // [HttpPost(ApiEndpoints.CartItem.Create)]
+    // public async Task<IActionResult> CreateCartItem([FromBody] CreateCartItemRequest request)
+    // {
+    //     if (request == null)
+    //     {
+    //         return BadRequest(new FinalResponse<object>() { StatusCode = 400, Message = "Cart Item data is invalid." });
+    //     }
+    //
+    //     if (!ModelState.IsValid)
+    //     {
+    //         return BadRequest(new FinalResponse<object>
+    //             { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
+    //     }
+    //
+    //     var cartItem = request.MapToCartItem();
+    //     await _cartItemRepository.CreateCartItem(cartItem ?? throw new InvalidOperationException());
+    //     var customerResponse = new FinalResponse<CartItemResponse>
+    //     {
+    //         StatusCode = 200,
+    //         Message = "Cart Item created successfully.",
+    //         Data = cartItem
+    //     };
+    //     return CreatedAtAction(nameof(GetCartItems), new { id = cartItem.Id }, customerResponse);
+    //
+    // }
     
     
     //UPDATE CartItem
@@ -67,11 +68,11 @@ public class CartItemController : Controller
             return BadRequest(new FinalResponse<object>() { StatusCode = 400, Message = "Cart Item data is invalid." });
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(new FinalResponse<object>
-                { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
-        }
+        // if (!ModelState.IsValid)
+        // {
+        //     return BadRequest(new FinalResponse<object>
+        //         { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
+        // }
 
         var cartItem = request.MapToCartItem(id);
         var updated = await _cartItemRepository.UpdateCartItem(cartItem);
@@ -80,7 +81,7 @@ public class CartItemController : Controller
             return NotFound();
         }
 
-        var response = new FinalResponse<CartItemResponse>
+        var response = new FinalResponse<object>
         {
             StatusCode = 200,
             Message = "Cart Item details updated successfully.",
