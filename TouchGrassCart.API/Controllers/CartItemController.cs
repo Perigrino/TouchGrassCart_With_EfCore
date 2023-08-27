@@ -1,6 +1,8 @@
+using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using TouchGrassCart.API.Mapping;
 using TouchGrassCart.Application.Interface;
+using TouchGrassCart.Application.Model;
 using TouchGrassCart.Contracts.Request;
 using TouchGrassCart.Contracts.Response;
 
@@ -21,11 +23,11 @@ public class CartItemController : Controller
     public async Task<IActionResult> GetCartItems()
     {
         var cartItem = await _cartItemRepository.GetCartItemAsync();
-        var cartItemResponse = new FinalResponse<CartItemsResponse>
+        var cartItemResponse = new FinalResponse<List<CartItem>>
         {
             StatusCode = 200,
             Message = "Cart Items retrieved successfully.",
-            Data = cartItem.MapsToResponse()
+            Data = cartItem.ToList()
         };
         return Ok(cartItemResponse);
     }
@@ -38,60 +40,60 @@ public class CartItemController : Controller
         {
             return BadRequest(new FinalResponse<object>() { StatusCode = 400, Message = "Cart Item data is invalid." });
         }
-
+    
         if (!ModelState.IsValid)
         {
             return BadRequest(new FinalResponse<object>
                 { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
         }
-
+    
         var cartItem = request.MapToCartItem();
         await _cartItemRepository.CreateCartItem(cartItem ?? throw new InvalidOperationException());
-        var customerResponse = new FinalResponse<CartItemResponse>
+        var customerResponse = new FinalResponse<object>
         {
             StatusCode = 200,
             Message = "Cart Item created successfully.",
-            Data = cartItem.MapsToResponse()
+            Data = cartItem
         };
         return CreatedAtAction(nameof(GetCartItems), new { id = cartItem.Id }, customerResponse);
-
+    
     }
     
     
     //UPDATE CartItem
-    [HttpPut(ApiEndpoints.CartItem.Update)]
-    public async Task<IActionResult> UpdateCartItem([FromRoute] Guid id, [FromBody] UpdateCartItemRequest request)
-    {
-        if (request == null)
-        {
-            return BadRequest(new FinalResponse<object>() { StatusCode = 400, Message = "Cart Item data is invalid." });
-        }
-
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(new FinalResponse<object>
-                { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
-        }
-
-        var cartItem = request.MapToCartItem(id);
-        var updated = await _cartItemRepository.UpdateCartItem(cartItem);
-        if (updated is false)
-        {
-            return NotFound();
-        }
-
-        var response = new FinalResponse<CartItemResponse>
-        {
-            StatusCode = 200,
-            Message = "Cart Item details updated successfully.",
-            Data = cartItem.MapsToResponse()
-        };
-        return Ok(response);
-    }
+    // [HttpPut(ApiEndpoints.CartItem.Update)]
+    // public async Task<IActionResult> UpdateCartItem([FromRoute] Guid id, [FromBody] UpdateCartItemRequest request)
+    // {
+    //     if (request == null)
+    //     {
+    //         return BadRequest(new FinalResponse<object>() { StatusCode = 400, Message = "Cart Item data is invalid." });
+    //     }
+    //
+    //     if (!ModelState.IsValid)
+    //     {
+    //         return BadRequest(new FinalResponse<object>
+    //             { StatusCode = 400, Message = "Validation failed.", Data = ModelState });
+    //     }
+    //     
+    //     var updated = await _cartItemRepository.UpdateCartItem(request.Adapt<CartItem>());
+    //     if (updated is false)
+    //     {
+    //         return NotFound();
+    //     }
+    //
+    //     var response = new FinalResponse<object>
+    //     {
+    //         StatusCode = 200,
+    //         Message = "Cart Item details updated successfully.",
+    //         Data = updated
+    //     };
+    //     return Ok(response);
+    // }
 
     //DELETE CartItem 
-        [HttpDelete(ApiEndpoints.CartItem.Delete)]
-        public async Task<IActionResult> Delete(Guid id)
+    
+    [HttpDelete(ApiEndpoints.CartItem.Delete)]
+    public async Task<IActionResult> Delete(Guid id)
         {
             await _cartItemRepository.CartItemExists(id);
             var deleteCartItem = await _cartItemRepository.RemoveCartItem(id);
