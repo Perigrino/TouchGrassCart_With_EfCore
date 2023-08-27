@@ -1,4 +1,3 @@
-using Jil;
 using Microsoft.EntityFrameworkCore;
 using TouchGrassCart.Application.Database.AppDbContext;
 using TouchGrassCart.Application.Interface;
@@ -16,17 +15,27 @@ public class CartRepository : ICartRepository
         _context = context;
     }
 
+    public async Task<IEnumerable<Cart>> GetCartsAsync()
+    {
+        var carts = await _context.Carts
+            .Include(cartItems => cartItems.CartItems)
+            .ToListAsync();
+        return carts;
+    }
+
     public async Task<bool> CreateCart(Cart cart)
     {
         var newCart = new Cart
         {
-            CustomerId = cart.CustomerId
+            Id = new Guid(),
+            CustomerId = cart.CustomerId,
+            Customer = null
         };
         await _context.AddAsync(newCart);
         return await Save();
     }
 
-    public async Task<Cart> GetCatById(Guid cartId)
+    public async Task<Cart> GetCartById(Guid cartId)
     {
             var result = await _context.Carts
             .Include(cartItems => cartItems.CartItems)
@@ -59,7 +68,7 @@ public class CartRepository : ICartRepository
         {
             _context.CartItems.Add(new CartItem
             {
-                Id = new Guid(),
+                Id = Guid.NewGuid(),
                 ProductId = cartItem.ProductId,
                 CartId = cartItem.CartId,
                 ProductName = cartItem.ProductName,
@@ -70,21 +79,22 @@ public class CartRepository : ICartRepository
         return await Save();
     }
 
-    public async Task<bool> UpdateCartItem(CartItem updateCart)
-    {
-        var cartItem = await _context.CartItems.FirstOrDefaultAsync(item => item.ProductId == updateCart.ProductId);
-
-        if (cartItem != null)
-        {
-            cartItem.Quantity = updateCart.Quantity;
-        }
-        return await Save();
-    }
-
+    // public async Task<bool> UpdateCartItem(Guid cartItemId, int newQuantity)
+    // {
+    //     var cartItem = await _context.CartItems.FirstOrDefaultAsync(item => item.Id == cartItemId);
+    //
+    //     if (cartItem == null)
+    //     {
+    //         return false; // Cart item not found
+    //     }
+    //     cartItem.Quantity = newQuantity;
+    //     return await Save();
+    // }
+    
     public async Task<bool> RemoveFromCart (Guid productId)
     {
         var cartItem = await _context.CartItems.FirstOrDefaultAsync(item => item.ProductId == productId);
-
+    
         if (cartItem != null)
         {
             _context.CartItems.Remove(cartItem);

@@ -35,19 +35,19 @@ public class CartItemRepository : ICartItemRepository
         return await Save();
     }
 
-    public async Task<bool> UpdateCartItem(CartItem cartItem)
-    {
-        var result = await _context.CartItems.FirstOrDefaultAsync(c => c.Id  == cartItem.Id);
-        if (result != null)
-        {
-            result.Id = cartItem.Id;
-            result.ProductId = cartItem.ProductId;
-            result.Quantity = cartItem.Quantity;
-            result.UnitPrice = cartItem.UnitPrice;
-            result.CartId = cartItem.CartId;
-        }
-        return await Save();
-    }
+    // public async Task<bool> UpdateCartItem(CartItem cartItem)
+    // {
+    //     var result = await _context.CartItems.FirstOrDefaultAsync(c => c.Id  == cartItem.Id);
+    //     if (result != null)
+    //     {
+    //         result.Id = cartItem.Id;
+    //         result.ProductId = cartItem.ProductId;
+    //         result.Quantity = cartItem.Quantity;
+    //         result.UnitPrice = cartItem.UnitPrice;
+    //         result.CartId = cartItem.CartId;
+    //     }
+    //     return await Save();
+    // }
 
     public async Task<bool> RemoveCartItem(Guid cartItemId)
     {
