@@ -36,7 +36,7 @@ public static class ApiEndpoints
         public const string GetAll = Base;
         public const string AddToCart = Base;
         public const string CreateCart = $"{Base}/create";
-        public const string Update = $"{Base}/{{id:guid}}";
+        public const string TotalAmount = $"{Base}/total_amount/{{cartId:guid}}";
         public const string RemoveCartItem = $"{Base}/remove_cartItem/{{id:guid}}";
         public const string DeleteCart = $"{Base}/{{id:guid}}";
     }

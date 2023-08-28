@@ -11,10 +11,12 @@ namespace TouchGrassCart.API.Controllers;
 public class CartController : Controller
 {
     private readonly ICartRepository _cartRepository;
+    private readonly ICartService _cartService;
 
-    public CartController(ICartRepository cartRepository)
+    public CartController(ICartRepository cartRepository, ICartService cartService)
     {
         _cartRepository = cartRepository;
+        _cartService = cartService;
     }
     
     
@@ -204,5 +206,27 @@ public class CartController : Controller
             Message = "Cart Item deleted successfully",
             Data = null
         });
+    }
+    
+    [HttpGet(ApiEndpoints.Cart.TotalAmount)]
+    public async Task<IActionResult> CalculateTotalAmount(Guid cartId)
+    {
+        var cart = await _cartService.CalculateTotalAsync(cartId);
+        if (cart == null)
+        {
+            return NotFound(new FinalResponse<object>
+            {
+                StatusCode = 404,
+                Message = "Cart not found."
+            });
+        }
+
+        var productResponse = new FinalResponse<object>
+        {
+            StatusCode = 200,
+            Message = "Total amount calculated successfully.",
+            Data = cart
+        };
+        return Ok(productResponse);
     }
 }
